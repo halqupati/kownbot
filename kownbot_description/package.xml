@@ -2,7 +2,7 @@
 <package format="2">
   <name>kownbot_description</name>
   <version>0.0.1</version>
-  <description>The kownbot_description package of kownbor robot</description>
+  <description>The kownbot_description package of kownbot robot</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
