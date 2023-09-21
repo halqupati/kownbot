@@ -1,0 +1,18 @@
+<launch>
+    <!--arg name="model" default="$(env KOWNBOT_MODEL)" doc="model type [kownbot]"/-->
+    <arg name="model" default="kownbot" doc="model type [kownbot]"/>
+    <arg name="rvizconfig" default="$(find kownbot_control)/rviz/kownbot.rviz" />
+    <arg name="world_name" default="$(find kownbot_gazebo)/worlds/db_world.world"/>
+
+    <include file="$(find kownbot_gazebo)/launch/kownbot_view.launch">
+        <arg name="model" value="$(arg model)" />
+        <arg name="world_name" value="$(arg world_name)"/>
+    </include>
+
+    <include file="$(find kownbot_control)/launch/kownbot_control.launch">
+        <arg name="model" value="$(arg model)" />
+    </include>
+
+    <!-- Launch visualization in rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+</launch>
