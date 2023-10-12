@@ -91,8 +91,8 @@
       </ray>
       <!-- plugin_name is either libgazebo_ros_laser.so or libgazebo_ros_gpu_laser.so-->
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="${plugin_name}">
-        <topicName>/diffbot/scan</topicName>
-        <frameName>${prefix}_laser_link</frameName>
+        <topicName>/$(arg kbot_name)/scan</topicName>
+        <frameName>$(arg kbot_name)/${prefix}_laser_link</frameName>
       </plugin>
     </sensor>
   </gazebo>
@@ -173,7 +173,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>diffbot/camera1</cameraName>
+        <cameraName>$(arg kbot_name)/camera1</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>

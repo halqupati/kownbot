@@ -2,11 +2,11 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- ros_control plugin -->
-  <xacro:macro name="gazebo_ros_control" params="robotNamespace robotSimType:=gazebo_ros_control/DefaultRobotHWSim"> 
+  <xacro:macro name="gazebo_ros_control" params="robotSimType:=gazebo_ros_control/DefaultRobotHWSim"> 
     <gazebo>
       <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-        <robotNamespace>${robotNamespace}</robotNamespace>
-        <!--robotParam>/robot_description</robotParam-->
+        <robotNamespace>$(arg kbot_name)</robotNamespace>
+        <robotParam>$(arg kbot_name)/robot_description</robotParam>
         <robotSimType>${robotSimType}</robotSimType>
       </plugin>
     </gazebo>

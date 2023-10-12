@@ -4,6 +4,7 @@
   <xacro:property name="package_name" value="kownbot_description"/>
   <xacro:property name="robot_name" value="kownbot"/>
 
+
   <xacro:include filename="$(find ${package_name})/urdf/include/common_macros.urdf.xacro" />
   <xacro:include filename="$(find ${package_name})/urdf/include/kownbot_caster_macro.urdf.xacro" />
   <xacro:include filename="$(find ${package_name})/urdf/include/common_sensors.xacro" />
@@ -46,7 +47,8 @@
 
   <xacro:wheel prefix="front_left" reflect="1" 
                       wheel_props="${front_wheel_props}"
-                      base_props="${base_props}" > 
+                      base_props="${base_props}"
+                       > 
   </xacro:wheel>
 
 
@@ -64,11 +66,12 @@
   <!-- Sensors -->
   <xacro:laser prefix="rplidar" parent_link="base_link"
                    sensor_prop="${sensor_prop}"
-                   enable_gpu="${sensor_prop['laser']['enable_gpu']}">
+                   enable_gpu="${sensor_prop['laser']['enable_gpu']}"
+                   >
   </xacro:laser>
 
   <!-- Gazebo -->
-  <xacro:gazebo_ros_control robotNamespace="/kownbot">
+  <xacro:gazebo_ros_control >
   </xacro:gazebo_ros_control>
 
 </robot>

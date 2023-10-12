@@ -1,0 +1,102 @@
+ <launch>
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <!--arg name="model" default="$(env KOWNBOT_MODEL)" doc="model type [kownbot]"/-->
+  <arg name="model" default="kownbot" doc="model type [kownbot]"/>
+
+  <arg name="frist_kbot" default="kbot_0"/>
+  <arg name="second_kbot" default="kbot_1"/>
+
+  <arg name="frist_kbot_x_pos" default="-2.0"/>
+  <arg name="frist_kbot_y_pos" default="-0.5"/>
+  <arg name="frist_kbot_z_pos" default="0.0"/>
+  <arg name="frist_kbot_yaw" default="0.0"/>
+
+  <arg name="second_kbot_x_pos" default="-2.0"/>
+  <arg name="second_kbot_y_pos" default="0.5"/>
+  <arg name="second_kbot_z_pos" default="0.0"/>
+  <arg name="second_kbot_yaw" default="0.0"/>
+
+
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <!-- arg name="world_name" default="$(find kownbot_gazebo)/worlds/corridor.world"/ -->
+  <arg name="world_name" default="$(find kownbot_gazebo)/worlds/db_world.world"/>
+  <!--arg name="world_name" default="$(find kownbot_gazebo)/worlds/multi_turtlebot3_closeworld1.world"/-->
+  
+  <arg name="x_pos" default="-2.0"/>
+  <arg name="y_pos" default="-0.5"/>
+  <arg name="z_pos" default="0.0"/>
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+<!--
+
+<param name="robot_description" command="$(find xacro)/xacro inorder $(find kownbot_description)/urdf/$(arg model).urdf.xacro" />
+  -->
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <group ns="$(arg frist_kbot)">
+
+  <param name="robot_description" command="$(find xacro)/xacro $(find kownbot_description)/urdf/$(arg model).urdf.xacro kbot_name:=$(arg frist_kbot)" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+         respawn="false" output="screen">
+        <param name="tf_prefix" value="$(arg frist_kbot)"/>
+    </node>
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"  output="screen"
+    args="-urdf -model $(arg frist_kbot) -x $(arg frist_kbot_x_pos) -y $(arg frist_kbot_y_pos) -z $(arg frist_kbot_z_pos) -param robot_description"/>
+  
+  <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
+        <param name="default_topic" value="/$(arg frist_kbot)/mobile_base_controller/cmd_vel"/>
+  </node>
+
+  </group>
+
+  <group ns="$(arg second_kbot)">
+
+  <param name="robot_description" command="$(find xacro)/xacro $(find kownbot_description)/urdf/$(arg model).urdf.xacro kbot_name:=$(arg second_kbot)" />
+
+
+   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+         respawn="false" output="screen">
+        <param name="tf_prefix" value="$(arg second_kbot)"/>
+    </node>
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"  output="screen"
+    args="-urdf -model $(arg second_kbot)  -x $(arg second_kbot_x_pos) -y $(arg second_kbot_y_pos) -z $(arg second_kbot_z_pos) -param robot_description"/>
+  
+  <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
+        <param name="default_topic" value="/$(arg second_kbot)/mobile_base_controller/cmd_vel"/>
+  </node>
+  </group>
+
+<rosparam command="load"
+        file="$(find kownbot_control)/config/config1/kownbot_control1.yaml"/>
+
+<rosparam command="load"
+        file="$(find kownbot_control)/config/config1/pid.yaml"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="$(arg frist_kbot)" args="joint_state_controller
+                                            mobile_base_controller"/>
+                                            
+ <rosparam command="load"
+        file="$(find kownbot_control)/config/config2/kownbot_control2.yaml"/>
+        <rosparam command="load"
+        file="$(find kownbot_control)/config/config2/pid.yaml"/>
+
+  <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="$(arg second_kbot)" args="joint_state_controller
+                                            mobile_base_controller"/>
+
+  </launch>

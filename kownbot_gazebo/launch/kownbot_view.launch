@@ -2,9 +2,13 @@
   <!-- these are the arguments you can pass this launch file, for example paused:=true -->
   <!--arg name="model" default="$(env KOWNBOT_MODEL)" doc="model type [kownbot]"/-->
   <arg name="model" default="kownbot" doc="model type [kownbot]"/>
+  
+  <arg name="frist_kbot" default="kownbot"/>
+
   <arg name="description_package" default="$(eval find(arg('model') + '_description'))" />
   <arg name="urdf_file" default="$(find xacro)/xacro '$(arg description_package)/urdf/$(arg model).urdf.xacro'" />
 
+  
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
@@ -31,5 +35,5 @@
 
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-    args="-urdf -model kownbot -param /kownbot/robot_description -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) "/>
+    args="-urdf -model kownbot -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param /kownbot/robot_description"/>
 </launch>

@@ -1,4 +1,4 @@
-diffbot:
+kownbot:
   gazebo_ros_control:
     pid_gains:
       front_right_wheel_joint:
