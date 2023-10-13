@@ -17,15 +17,23 @@ The following sections describe how to run the robot simulation and how to make 
 
 ## Usage
 # Open 1th terminal
-1. source workspace 
-. ~/catkin_ws/devel/setup.bash
-2. Run gazebo simulition
-   roslaunch kownbot_gazebo multi_kownbot_view.launch
-# Open 2th terminal
-1. source workspace 
+1. source workspace
+```
 . ~/{YOUR_WORKSPACE}/devel/setup.bash
-2. Run navigation
-   rroslaunch kownbot_navigation multi_kownbot_navigation.launch
+ ```
+3. Run gazebo simulition
+   ```
+   roslaunch kownbot_gazebo multi_kownbot_view.launch
+   ```
+# Open 2th terminal
+1. source workspace
+```
+. ~/{YOUR_WORKSPACE}/devel/setup.bash
+```
+3. Run navigation
+   ```
+   roslaunch kownbot_navigation multi_kownbot_navigation.launch
+   ```
 
 ## :wrench: Contributing
 
