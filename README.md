@@ -21,7 +21,7 @@ The following sections describe how to run the robot simulation and how to make 
 ```
 . ~/{YOUR_WORKSPACE}/devel/setup.bash
  ```
-3. Run gazebo simulition
+2. Run gazebo simulition
    ```
    roslaunch kownbot_gazebo multi_kownbot_view.launch
    ```
@@ -30,7 +30,7 @@ The following sections describe how to run the robot simulation and how to make 
 ```
 . ~/{YOUR_WORKSPACE}/devel/setup.bash
 ```
-3. Run navigation
+2. Run navigation
    ```
    roslaunch kownbot_navigation multi_kownbot_navigation.launch
    ```
